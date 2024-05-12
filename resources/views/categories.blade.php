@@ -38,7 +38,7 @@
 <div class="container">
     <div class="starter-template">
         <div class="panel">
-            <a href="http://laravel-diplom-1.rdavydov.ru/mobiles">
+            <a href="/mobiles">
                 <img src="http://laravel-diplom-1.rdavydov.ru/storage/categories/mobile.jpg">
                 <h2>Мобильные телефоны</h2>
             </a>
@@ -47,7 +47,7 @@
             </p>
         </div>
         <div class="panel">
-            <a href="http://laravel-diplom-1.rdavydov.ru/portable">
+            <a href="/portable">
                 <img src="http://laravel-diplom-1.rdavydov.ru/storage/categories/portable.jpg">
                 <h2>Портативная техника</h2>
             </a>
@@ -56,7 +56,7 @@
             </p>
         </div>
         <div class="panel">
-            <a href="http://laravel-diplom-1.rdavydov.ru/appliances">
+            <a href="/appliance">
                 <img src="http://laravel-diplom-1.rdavydov.ru/storage/categories/appliance.jpg">
                 <h2>Бытовая техника</h2>
             </a>
