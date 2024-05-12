@@ -42,7 +42,7 @@
         <div class="row">
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail">
-                    <img src="" alt="iPhone X 64GB">
+                    <img src="{{ Vite::asset('resources/images/png-iphone-x.png') }}" alt="iPhone X 64GB">
                     <div class="caption">
                         <h3>iPhone X 64GB</h3>
                         <p>71990 руб.</p>
