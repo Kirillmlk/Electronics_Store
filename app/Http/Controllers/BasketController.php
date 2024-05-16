@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -11,10 +12,11 @@ class BasketController extends Controller
     {
         $orderId = session('orderId');
         if (!is_null($orderId)) {
-            $order = findOrFail($orderId);
+            $order = Order::findOrFail($orderId);
         }
         return view('basket', compact('order'));
     }
+
     public function basketPlace()
     {
         return view('order');
@@ -23,12 +25,14 @@ class BasketController extends Controller
     public function basketAdd($productId)
     {
         $orderId = session('orderId');
+
         if (is_null($orderId)) {
-            $order= Order::create()->id;
+            $order = Order::create()->id;
             session(['orderId' => $order->id]);
         } else {
             $order = Order::find($orderId);
         }
+
         $order->products()->attach($productId);
 
         return view('basket', compact('order'));
