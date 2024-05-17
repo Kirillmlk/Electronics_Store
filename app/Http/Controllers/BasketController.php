@@ -27,14 +27,32 @@ class BasketController extends Controller
         $orderId = session('orderId');
 
         if (is_null($orderId)) {
-            $order = Order::create()->id;
-            session(['orderId' => $order->id]);
+            $order = Order::create(); // Создаем новый объект Order
+            session(['orderId' => $order->id]); // Сохраняем идентификатор заказа в сессии
         } else {
-            $order = Order::find($orderId);
+            $order = Order::find($orderId); // Находим существующий заказ по идентификатору
         }
 
-        $order->products()->attach($productId);
+        $order->products()->attach($productId); // Прикрепляем продукт к заказу
 
-        return view('basket', compact('order'));
+        return redirect()->route('basket');
+
+    }
+
+    public function basketRemove($productId)
+    {
+        $orderId = session('orderId');
+        if (is_null($orderId)) {
+            return redirect()->route('basket');
+        }
+        $order = Order::find($orderId);
+        $order->products()->detach($productId);
+
+        return redirect()->route('basket');
+
     }
 }
+
+
+
+
