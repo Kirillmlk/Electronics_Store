@@ -3,7 +3,7 @@
         <img src="{{ Vite::asset('resources/images/png-iphone-x.png') }}" alt="iPhone X 64GB">
         <div class="caption">
             <h3>{{ $product->name }}</h3>
-            <p>{{ $product->price }}</p>
+            <p>{{ $product->price }} руб.</p>
             <p>
             <form action="{{ route('basket-add', $product) }}" method="post">
                 <button type="submit" class="btn btn-primary"
