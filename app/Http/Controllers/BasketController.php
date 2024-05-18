@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class BasketController extends Controller
@@ -24,7 +25,13 @@ class BasketController extends Controller
             return redirect()->route('index');
         }
         $order = Order::find($orderId);
-        $result = $order->saveOrder($request->name, $request->phone);
+        $success = $order->saveOrder($request->name, $request->phone);
+
+        if ($success) {
+            session()->flash('success', 'Ваш заказ принят в обработку');
+        } else {
+            session()->flash('warning', 'Ошибка заказа');
+        }
 
         return redirect()->route('index');
     }
@@ -58,6 +65,9 @@ class BasketController extends Controller
             $order->products()->attach($productId);
         }
 
+        $product = Product::find($productId);
+
+        session()->flash('success', 'Добавлен товар ' . $product->name);
         return redirect()->route('basket');
 
     }
@@ -80,6 +90,8 @@ class BasketController extends Controller
             }
         }
 
+        $product = Product::find($productId);
+        session()->flash('warning', 'Удален товар ' . $product->name);
 
         return redirect()->route('basket');
 
