@@ -1,8 +1,9 @@
 <?php
 
+
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BasketController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,10 @@ Auth::routes([
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('get-logout');
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::middleware(['auth'])->namespace('App\Http\Controllers\Admin')->group(function () {
+    Route::get('/orders', [OrderController::class, 'index'])->name('home');
+});
+
 Route::get('/', [MainController::class, 'index'])->name('index');
 
 Route::get('/basket', [BasketController::class, 'basket'])->name('basket');
