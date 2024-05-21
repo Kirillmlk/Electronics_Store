@@ -21,44 +21,39 @@
                   action="{{ route('categories.store') }}"
             @endisset
         >
-            <div>
-                @isset($category)
-                    @method('PUT')
-                @endisset
-                @csrf
-                <div class="input-group row">
-                    <label for="code" class="col-sm-2 col-form-label">Код: </label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" name="code" id="code"
-                               value="@isset($category){{ $category->code }}@endisset">
-                    </div>
+            @isset($category)
+                @method('PUT')
+            @endisset
+            @csrf
+            <div class="form-group row">
+                <label for="code" class="col-sm-2 col-form-label">Код: </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="code" id="code" value="{{ $category->code ?? '' }}">
                 </div>
-                <br>
-                <div class="input-group row">
-                    <label for="name" class="col-sm-2 col-form-label">Название: </label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" name="name" id="name"
-                               value="@isset($category){{ $category->name }}@endisset">
-                    </div>
+            </div>
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label">Название: </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="name" id="name" value="{{ $category->name ?? '' }}">
                 </div>
-                <br>
-                <div class="input-group row">
-                    <label for="description" class="col-sm-2 col-form-label">Описание: </label>
-                    <div class="col-sm-6">
-							<textarea name="description" id="description" cols="72"
-                                      rows="7">@isset($category){{ $category->description }}@endisset</textarea>
-                    </div>
+            </div>
+            <div class="form-group row">
+                <label for="description" class="col-sm-2 col-form-label">Описание: </label>
+                <div class="col-sm-10">
+                    <textarea name="description" id="description" class="form-control" cols="30"
+                              rows="5">{{ $category->description ?? '' }}</textarea>
                 </div>
-                <br>
-                <div class="input-group row">
-                    <label for="image" class="col-sm-2 col-form-label">Картинка: </label>
-                    <div class="col-sm-10">
-                        <label class="btn btn-default btn-file">
-                            Загрузить <input type="file" style="display: none;" name="image" id="image">
-                        </label>
-                    </div>
+            </div>
+            <div class="form-group row">
+                <label for="image" class="col-sm-2 col-form-label">Картинка: </label>
+                <div class="col-sm-10">
+                    <input type="file" class="form-control-file" name="image" id="image">
                 </div>
-                <button class="btn btn-success">Сохранить</button>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10 offset-sm-2">
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
             </div>
         </form>
     </div>
