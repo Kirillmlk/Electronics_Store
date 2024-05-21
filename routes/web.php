@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BasketController;
@@ -17,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+
 Auth::routes([
     'reset' => false,
     'confirm' => false,
@@ -26,12 +31,15 @@ Auth::routes([
 Route::get('/logout', [LoginController::class, 'logout'])->name('get-logout');
 
 
-Route::middleware(['auth', 'is_admin'])->namespace('App\Http\Controllers\Admin')->group(function () {
+Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('home');
+
+
+    Route::resource('categories', CategoryController::class);
 });
 
-
 Route::get('/', [MainController::class, 'index'])->name('index');
+
 
 Route::prefix('basket')->group(function () {
     Route::post('/add/{id}', [BasketController::class, 'basketAdd'])->name('basket-add');
@@ -44,12 +52,9 @@ Route::prefix('basket')->group(function () {
     });
 });
 
-
 Route::get('/categories', [MainController::class, 'categories'])->name('categories');
 Route::get('/{category}', [MainController::class, 'category'])->name('category');
-
 Route::get('/{category}/{product?}', [MainController::class, 'product'])->name('product');
-
 
 
 
