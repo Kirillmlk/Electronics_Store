@@ -31,7 +31,7 @@
                     @error('code')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
-                    <input type="text" class="form-control" name="code" id="code" value="{{ $category->code ?? '' }}">
+                    <input type="text" class="form-control" name="code" id="code" value="{{ old('code'), isset($category) ? $category->code : null }}">
                 </div>
             </div>
             <div class="form-group row">
