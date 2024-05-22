@@ -28,18 +28,27 @@
             <div class="form-group row">
                 <label for="code" class="col-sm-2 col-form-label">Код: </label>
                 <div class="col-sm-10">
+                    @error('code')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                     <input type="text" class="form-control" name="code" id="code" value="{{ $category->code ?? '' }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">Название: </label>
                 <div class="col-sm-10">
+                    @error('name')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                     <input type="text" class="form-control" name="name" id="name" value="{{ $category->name ?? '' }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="description" class="col-sm-2 col-form-label">Описание: </label>
                 <div class="col-sm-10">
+                    @error('description')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                     <textarea name="description" id="description" class="form-control" cols="30"
                               rows="5">{{ $category->description ?? '' }}</textarea>
                 </div>
