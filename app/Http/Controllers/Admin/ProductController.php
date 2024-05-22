@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -32,14 +33,17 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        Product::create($request->all());
+        $path = $request->file('image')->store('products');
+        $params = $request->all();
+        $params['image'] = $path;
+        Product::create($params);
         return redirect()->route('products.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
         return view('auth.products.show', compact('product'));
     }
@@ -47,7 +51,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $product)
+    public function edit(Product $product)
     {
         $categories = Category::get();
         return view('auth.products.form', compact('product', 'categories'));
@@ -59,7 +63,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $product->update($request->all());
+        Storage::delete($product->image);
+        $path = $request->file('image')->store('products');
+        $params = $request->all();
+        $params['image'] = $path;
+        Product::update($params);
         return redirect()->route('products.index');
     }
 
