@@ -13,6 +13,8 @@ class Product extends Model
 ////        dd($category);
 //    }
 
+    protected $fillable = ['name', 'code', 'price', 'category_id', 'description', 'image'];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -21,7 +23,7 @@ class Product extends Model
     public function getPriceForCount()
     {
         if (!is_null($this->pivot)) {
-           return $this->pivot->count * $this->price;
+            return $this->pivot->count * $this->price;
         }
         return $this->price;
     }
