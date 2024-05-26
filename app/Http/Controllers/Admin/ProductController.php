@@ -34,9 +34,13 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $path = $request->file('image')->store('products');
         $params = $request->all();
-        $params['image'] = $path;
+
+        unset($params['image']);
+        if ($request->has('image')) {
+            $params['image'] = $request->file('image')->store('products');
+        }
+
         Product::create($params);
         return redirect()->route('products.index');
     }
@@ -64,13 +68,25 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
-        Storage::delete($product->image);
-        $path = $request->file('image')->store('products');
         $params = $request->all();
-        $params['image'] = $path;
-        Product::update($params);
+        unset($params['image']);
+        if ($request->has('image')) {
+            Storage::delete($product->image);
+            $params['image'] = $request->file('image')->store('products');
+        }
+
+        foreach (['new', 'hit', 'recommend'] as $fieldName) {
+            if (!isset($params[$fieldName])) {
+                $params[$fieldName] = 0;
+            }
+        }
+
+//        dd($params);
+
+        $product->update($params);
         return redirect()->route('products.index');
     }
+
 
     /**
      * Remove the specified resource from storage.

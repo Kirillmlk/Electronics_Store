@@ -65,10 +65,10 @@
                     <label for="description" class="col-sm-2 col-form-label">Описание: </label>
                     <div class="col-sm-6">
                         @include('auth.layouts.error', ['fieldName' => 'description'])
-								<textarea name="description" id="description" cols="72"
-                                          rows="7">@isset($product)
-                                        {{ $product->description }}
-                                    @endisset</textarea>
+                        <textarea name="description" id="description" cols="72"
+                                  rows="7">@isset($product)
+                                {{ $product->description }}
+                            @endisset</textarea>
                     </div>
                 </div>
                 <br>
@@ -83,7 +83,7 @@
                 <br>
                 <div class="input-group row">
                     <label for="price" class="col-sm-2 col-form-label">Цена: </label>
-                    <div class="col-sm-2">
+                    <div class="col-sm-5">
                         @include('auth.layouts.error', ['fieldName' => 'price'])
                         <input type="text" class="form-control" name="price" id="price"
                                value="@isset($product){{ $product->price }}@endisset">
