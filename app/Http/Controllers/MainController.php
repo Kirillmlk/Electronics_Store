@@ -11,7 +11,15 @@ class MainController extends Controller
     public function index(Request $request)
     {
 
-        $products = Product::paginate(3);
+        $productsQuery = Product::query();
+        if ($request->filled('price_from')) {
+            $productsQuery->where('price', '>=', $request->price_from);
+        }
+
+        if ($request->filled('price_to')) {
+            $productsQuery->where('price', '<=', $request->price_to);
+        }
+        $products = $productsQuery->paginate(3);
         return view('index', compact('products'));
     }
 
