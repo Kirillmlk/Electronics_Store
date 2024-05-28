@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 //    public function getCategory()
 //    {
@@ -13,9 +14,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use SoftDeletes;
 
-    protected $fillable = ['name', 'code', 'price', 'category_id', 'description', 'image', 'hit', 'new',
-        'recommend', 'count'];
+    protected $fillable = [
+        'name', 'code', 'price', 'category_id', 'description', 'image', 'hit', 'new', 'recommend', 'count'
+    ];
 
     public function category()
     {
@@ -44,6 +47,7 @@ class Product extends Model
     {
         return $query->where('new', 1);
     }
+
     public function scopeRecommend($query)
     {
         return $query->where('recommend', 1);
@@ -66,7 +70,7 @@ class Product extends Model
 
     public function isAvailable()
     {
-        return $this->count > 0;
+        return !$this->trashed() && $this->count > 0;
     }
 
     public function isHit()

@@ -13,9 +13,12 @@ class BasketController extends Controller
     public function basket()
     {
         $orderId = session('orderId');
+        $order = null; // Добавлено: инициализация переменной
+
         if (!is_null($orderId)) {
-            $order = Order::findOrFail($orderId);
+            $order = Order::find($orderId);
         }
+
         return view('basket', compact('order'));
     }
 
@@ -25,7 +28,12 @@ class BasketController extends Controller
         if (is_null($orderId)) {
             return redirect()->route('index');
         }
+
         $order = Order::find($orderId);
+        if (is_null($order)) {
+            return redirect()->route('index')->with('warning', 'Order not found.');
+        }
+
         $success = $order->saveOrder($request->name, $request->phone);
 
         if ($success) {
@@ -45,7 +53,12 @@ class BasketController extends Controller
         if (is_null($orderId)) {
             return redirect()->route('index');
         }
+
         $order = Order::find($orderId);
+        if (is_null($order)) {
+            return redirect()->route('index')->with('warning', 'Order not found.');
+        }
+
         return view('order', compact('order'));
     }
 
@@ -58,6 +71,10 @@ class BasketController extends Controller
             session(['orderId' => $order->id]); // Сохраняем идентификатор заказа в сессии
         } else {
             $order = Order::find($orderId); // Находим существующий заказ по идентификатору
+            if (is_null($order)) {
+                $order = Order::create(); // Создаем новый объект Order, если не найден
+                session(['orderId' => $order->id]); // Сохраняем идентификатор заказа в сессии
+            }
         }
 
         if ($order->products->contains($productId)) {
@@ -79,7 +96,6 @@ class BasketController extends Controller
 
         session()->flash('success', 'Добавлен товар ' . $product->name);
         return redirect()->route('basket');
-
     }
 
     public function basketRemove($productId)
@@ -88,7 +104,11 @@ class BasketController extends Controller
         if (is_null($orderId)) {
             return redirect()->route('basket');
         }
+
         $order = Order::find($orderId);
+        if (is_null($order)) {
+            return redirect()->route('basket')->with('warning', 'Order not found.');
+        }
 
         if ($order->products->contains($productId)) {
             $pivotRow = $order->products()->where('product_id', $productId)->first()->pivot;
@@ -107,7 +127,6 @@ class BasketController extends Controller
         session()->flash('warning', 'Удален товар ' . $product->name);
 
         return redirect()->route('basket');
-
     }
 }
 
