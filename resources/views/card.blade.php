@@ -18,11 +18,14 @@
             <h3>{{ $product->name }}</h3>
             <p>{{ $product->price }} руб.</p>
             <p>
-            <form action="{{ route('basket-add', $product) }}" method="post">
-                <button type="submit" class="btn btn-primary"
-                        role="button">В корзину
-                </button>
-                <a href="{{ route('product', [isset($category) ? $category->code : $product->category->code, $product->code]) }}" class="btn btn-default"
+            <form action="{{ route('basket-add', $product) }}" method="POST">
+                @if($product->isAvailable())
+                    <button type="submit" class="btn btn-primary" role="button">В корзину</button>
+                @else
+                    Не доступен
+                @endif
+                <a href="{{ route('product', [isset($category) ? $category->code : $product->category->code, $product->code]) }}"
+                   class="btn btn-default"
                    role="button">Подробнее</a>
                 @csrf
             </form>
@@ -30,4 +33,3 @@
         </div>
     </div>
 </div>
-{{--<img src="{{ Vite::asset('resources/images/png-iphone-x.png') }}" alt="iPhone X 64GB">--}}
