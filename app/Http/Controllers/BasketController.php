@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Classes\Basket;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -12,19 +13,15 @@ class BasketController extends Controller
 {
     public function basket()
     {
-        $orderId = session('orderId');
-        $order = Order::findOrFail($orderId);
+        $order = (new Basket())->getOrder();
+
 
         return view('basket', compact('order'));
     }
 
     public function basketConfirm(Request $request)
     {
-        $orderId = session('orderId');
-        $order = Order::findOrFail($orderId);
-        $success = $order->saveOrder($request->name, $request->phone);
-
-        if ($success) {
+        if ((new Basket())->saveOrder($request->name, $request->phone)) {
             session()->flash('success', 'Ваш заказ принят в обработку!');
         } else {
             session()->flash('warning', 'Случилась ошибка');
@@ -37,8 +34,7 @@ class BasketController extends Controller
 
     public function basketPlace()
     {
-        $orderId = session('orderId');
-        $order = Order::findOrFail($orderId);
+        $order = (new Basket())->getOrder();
         return view('order', compact('order'));
     }
 
@@ -75,6 +71,8 @@ class BasketController extends Controller
 
     public function basketRemove(Product $product)
     {
+        $basket = new Basket();
+
         $orderId = session('orderId');
         $order = Order::findOrFail($orderId);
 
