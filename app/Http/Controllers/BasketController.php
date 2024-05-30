@@ -13,11 +13,7 @@ class BasketController extends Controller
     public function basket()
     {
         $orderId = session('orderId');
-        $order = null; // Добавлено: инициализация переменной
-
-        if (!is_null($orderId)) {
-            $order = Order::find($orderId);
-        }
+        $order = Order::findOrFail($orderId);
 
         return view('basket', compact('order'));
     }
@@ -25,21 +21,13 @@ class BasketController extends Controller
     public function basketConfirm(Request $request)
     {
         $orderId = session('orderId');
-        if (is_null($orderId)) {
-            return redirect()->route('index');
-        }
-
-        $order = Order::find($orderId);
-        if (is_null($order)) {
-            return redirect()->route('index')->with('warning', 'Order not found.');
-        }
-
+        $order = Order::findOrFail($orderId);
         $success = $order->saveOrder($request->name, $request->phone);
 
         if ($success) {
-            session()->flash('success', 'Ваш заказ принят в обработку');
+            session()->flash('success', 'Ваш заказ принят в обработку!');
         } else {
-            session()->flash('warning', 'Ошибка заказа');
+            session()->flash('warning', 'Случилась ошибка');
         }
 
         Order::eraseOrderSum();
@@ -50,39 +38,26 @@ class BasketController extends Controller
     public function basketPlace()
     {
         $orderId = session('orderId');
-        if (is_null($orderId)) {
-            return redirect()->route('index');
-        }
-
-        $order = Order::find($orderId);
-        if (is_null($order)) {
-            return redirect()->route('index')->with('warning', 'Order not found.');
-        }
-
+        $order = Order::findOrFail($orderId);
         return view('order', compact('order'));
     }
 
-    public function basketAdd($productId)
+    public function basketAdd(Product $product)
     {
         $orderId = session('orderId');
-
         if (is_null($orderId)) {
-            $order = Order::create(); // Создаем новый объект Order
-            session(['orderId' => $order->id]); // Сохраняем идентификатор заказа в сессии
+            $order = Order::create();
+            session(['orderId' => $order->id]);
         } else {
-            $order = Order::find($orderId); // Находим существующий заказ по идентификатору
-            if (is_null($order)) {
-                $order = Order::create(); // Создаем новый объект Order, если не найден
-                session(['orderId' => $order->id]); // Сохраняем идентификатор заказа в сессии
-            }
+            $order = Order::findOrFail($orderId);
         }
 
-        if ($order->products->contains($productId)) {
-            $pivotRow = $order->products()->where('product_id', $productId)->first()->pivot;
+        if ($order->products->contains($product->id)) {
+            $pivotRow = $order->products()->where('product_id', $product->id)->first()->pivot;
             $pivotRow->count++;
             $pivotRow->update();
         } else {
-            $order->products()->attach($productId);
+            $order->products()->attach($product->id);
         }
 
         if (Auth::check()) {
@@ -90,41 +65,32 @@ class BasketController extends Controller
             $order->save();
         }
 
-        $product = Product::find($productId);
 
         Order::changeFullSum($product->price);
 
         session()->flash('success', 'Добавлен товар ' . $product->name);
+
         return redirect()->route('basket');
     }
 
-    public function basketRemove($productId)
+    public function basketRemove(Product $product)
     {
         $orderId = session('orderId');
-        if (is_null($orderId)) {
-            return redirect()->route('basket');
-        }
+        $order = Order::findOrFail($orderId);
 
-        $order = Order::find($orderId);
-        if (is_null($order)) {
-            return redirect()->route('basket')->with('warning', 'Order not found.');
-        }
-
-        if ($order->products->contains($productId)) {
-            $pivotRow = $order->products()->where('product_id', $productId)->first()->pivot;
+        if ($order->products->contains($product->id)) {
+            $pivotRow = $order->products()->where('product_id', $product->id)->first()->pivot;
             if ($pivotRow->count < 2) {
-                $order->products()->detach($productId);
+                $order->products()->detach($product->id);
             } else {
                 $pivotRow->count--;
                 $pivotRow->update();
             }
         }
 
-        $product = Product::find($productId);
-
         Order::changeFullSum(-$product->price);
 
-        session()->flash('warning', 'Удален товар ' . $product->name);
+        session()->flash('warning', 'Удален товар  ' . $product->name);
 
         return redirect()->route('basket');
     }
