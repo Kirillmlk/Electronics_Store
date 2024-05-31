@@ -2,9 +2,11 @@
 
 namespace App\Classes;
 
+use App\Mail\OrderCreated;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class Basket
 {
@@ -16,6 +18,7 @@ class Basket
      */
     public function __construct($createOrder = false)
     {
+
         $orderId = session('orderId');
 
         if (is_null($orderId) && $createOrder) {
@@ -30,6 +33,25 @@ class Basket
             $this->order = Order::findOrFail($orderId);
         }
     }
+//    public function __construct($createOrder = false)
+//    {
+//        $orderId = session('orderId');
+//
+//        if (is_null($orderId) && $createOrder) {
+//            // Создаем новый заказ, если он не найден в сессии и нужно создать новый
+//            $this->order = Order::create(['user_id' => Auth::id()]);
+//            session(['orderId' => $this->order->id]);
+//        } elseif (!is_null($orderId)) {
+//            // Находим заказ по ID из сессии
+//            $this->order = Order::find($orderId);
+//        }
+//
+//        // Если заказ все еще null, создаем новый заказ
+//        if (is_null($this->order)) {
+//            $this->order = Order::create(['user_id' => Auth::id()]);
+//            session(['orderId' => $this->order->id]);
+//        }
+//    }
 
     /**
      * @return mixed
@@ -58,11 +80,12 @@ class Basket
         return true;
     }
 
-    public function saveOrder($name, $phone)
+    public function saveOrder($name, $phone, $email)
     {
         if (!$this->countAvailable(true)) {
             return false;
         }
+        Mail::to($email)->send(new OrderCreated());
         return $this->order->saveOrder($name, $phone);
     }
 
