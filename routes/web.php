@@ -51,6 +51,7 @@ Route::middleware(['auth'])->prefix('person')->namespace('Person')->group(functi
 // Main Routes
 Route::get('/', [MainController::class, 'index'])->name('index');
 Route::get('/categories', [MainController::class, 'categories'])->name('categories');
+Route::post('/subscription/{product}', [MainController::class, 'subscribe'])->name('subscription');
 
 // Basket Routes
 Route::prefix('basket')->group(function () {
