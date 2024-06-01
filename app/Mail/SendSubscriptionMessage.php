@@ -26,4 +26,5 @@ class SendSubscriptionMessage extends Mailable
         return $this->view('mail.subscription', ['product' => $this->product]);
     }
 
+
 }
