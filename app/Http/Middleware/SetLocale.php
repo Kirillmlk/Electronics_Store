@@ -2,12 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Order;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;
 
-class BasketIsNotEmpty
+class SetLocale
 {
     /**
      * Handle an incoming request.
@@ -16,15 +16,8 @@ class BasketIsNotEmpty
      */
     public function handle(Request $request, Closure $next): Response
     {
-//        session()->flush();
-//        die();
-        $orderId = session('orderId');
-
-        if (!is_null($orderId) && Order::getFullSum() > 0) {
-                return $next($request);
-        }
-
-        session()->flash('warning', __('basket.cart_is_empty'));
-        return redirect()->route('index');
+        $locale = session('locale');
+        App::setLocale($locale);
+        return $next($request);
     }
 }
