@@ -30,6 +30,7 @@ Auth::routes([
 
 // Маршруты для смены локали
 Route::get('locale/{locale}', [MainController::class, 'changeLocale'])->name('locale');
+Route::get('currency/{currencyCode}', [MainController::class, 'changeCurrency'])->name('currency');
 
 // Маршрут для сброса данных (если требуется)
 Route::get('reset', [ResetController::class, 'reset'])->name('reset');
