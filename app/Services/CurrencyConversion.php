@@ -44,4 +44,15 @@ class CurrencyConversion
         $currency = self::$container[$currencyFormSession];
         return $currency->symbol;
     }
+
+    public static function getBaseCurrency()
+    {
+        self::LoadContainer();
+
+        foreach (self::$container as $code => $currency) {
+            if ($currency->isMain()) {
+                return $currency;
+            }
+        }
+    }
 }
