@@ -22,7 +22,7 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        //
+        return view('auth.properties.form');
     }
 
     /**
@@ -46,7 +46,7 @@ class PropertyController extends Controller
      */
     public function edit(Property $property)
     {
-        //
+        return view('auth.properties.form', compact('property'));
     }
 
     /**
