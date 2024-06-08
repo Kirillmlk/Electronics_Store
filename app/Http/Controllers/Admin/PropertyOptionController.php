@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PropertyOptionRequest;
 use App\Models\Property;
 use App\Models\PropertyOption;
-use Illuminate\Http\Request;
 
 class PropertyOptionController extends Controller
 {
@@ -30,7 +30,7 @@ class PropertyOptionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Property $property)
+    public function store(PropertyOptionRequest $request, Property $property)
     {
         $params = $request->all();
         $params['property_id'] = $request->property->id;
@@ -42,32 +42,36 @@ class PropertyOptionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PropertyOption $propertyOption)
+    public function show(Property $property, PropertyOption $propertyOption)
     {
-        //
+        return view('auth.property_options.show', compact('propertyOption'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PropertyOption $propertyOption)
+    public function edit(Property $property, PropertyOption $propertyOption)
     {
-        //
+        return view('auth.property_options.form', compact('propertyOption', 'property'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PropertyOption $propertyOption)
+    public function update(PropertyOptionRequest $request, Property $property, PropertyOption $propertyOption)
     {
-        //
+        $params = $request->all();
+
+        $propertyOption->update($params);
+        return redirect()->route('property-options.index', $property);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PropertyOption $propertyOption)
+    public function destroy(Property $property, PropertyOption $propertyOption )
     {
-        //
+        $propertyOption->delete();
+        return redirect()->route('property-options.index', $property);
     }
 }
