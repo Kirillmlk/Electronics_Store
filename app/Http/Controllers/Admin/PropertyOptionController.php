@@ -12,17 +12,17 @@ class PropertyOptionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Property $property)
+    public function index(Property $sku)
     {
         $properties = Property::get();
-        $propertyOptions = PropertyOption::paginate(10);
+        $skuOptions = PropertyOption::paginate(10);
         return view('auth.property_options.index', compact('propertyOptions', 'property'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Property $property)
+    public function create(Property $sku)
     {
         return view('auth.property_options.form', compact('property'));
     }
@@ -30,19 +30,19 @@ class PropertyOptionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PropertyOptionRequest $request, Property $property)
+    public function store(PropertyOptionRequest $request, Property $sku)
     {
         $params = $request->all();
         $params['property_id'] = $request->property->id;
 
         PropertyOption::create($params);
-        return redirect()->route('property-options.index', $property);
+        return redirect()->route('property-options.index', $sku);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Property $property, PropertyOption $propertyOption)
+    public function show(Property $sku, PropertyOption $skuOption)
     {
         return view('auth.property_options.show', compact('propertyOption'));
     }
@@ -50,7 +50,7 @@ class PropertyOptionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Property $property, PropertyOption $propertyOption)
+    public function edit(Property $sku, PropertyOption $skuOption)
     {
         return view('auth.property_options.form', compact('propertyOption', 'property'));
     }
@@ -58,20 +58,20 @@ class PropertyOptionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PropertyOptionRequest $request, Property $property, PropertyOption $propertyOption)
+    public function update(PropertyOptionRequest $request, Property $sku, PropertyOption $skuOption)
     {
         $params = $request->all();
 
-        $propertyOption->update($params);
-        return redirect()->route('property-options.index', $property);
+        $skuOption->update($params);
+        return redirect()->route('property-options.index', $sku);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Property $property, PropertyOption $propertyOption )
+    public function destroy(Property $sku, PropertyOption $skuOption )
     {
-        $propertyOption->delete();
-        return redirect()->route('property-options.index', $property);
+        $skuOption->delete();
+        return redirect()->route('property-options.index', $sku);
     }
 }

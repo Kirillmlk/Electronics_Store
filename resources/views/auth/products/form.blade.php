@@ -107,14 +107,14 @@
                     <div class="col-sm-6">
                         @include('auth.layouts.error', ['fieldName' => 'property_id[]'])
                         <select name="property_id[]"  multiple>
-                            @foreach($properties as $property)
-                                <option value="{{ $property->id }}"
+                            @foreach($properties as $sku)
+                                <option value="{{ $sku->id }}"
                                         @isset($product)
-                                            @if($product->properties->contains($property->id))
+                                            @if($product->properties->contains($sku->id))
                                                 selected
                                     @endif
                                     @endisset
-                                >{{ $property->name }}</option>
+                                >{{ $sku->name }}</option>
                             @endforeach
                         </select>
                     </div>

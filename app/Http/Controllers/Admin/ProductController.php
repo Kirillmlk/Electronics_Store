@@ -86,8 +86,6 @@ class ProductController extends Controller
 
         $product->properties()->sync($request->property_id);
 
-
-
         $product->update($params);
         return redirect()->route('products.index');
     }

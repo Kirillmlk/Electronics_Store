@@ -21,16 +21,16 @@
                     Действия
                 </th>
             </tr>
-            @foreach($propertyOptions as $propertyOption)
+            @foreach($skuOptions as $skuOption)
                 <tr>
-                    <td>{{ $propertyOption->id }}</td>
-                    <td>{{ $property->name }}</td>
-                    <td>{{ $propertyOption->name }}</td>
+                    <td>{{ $skuOption->id }}</td>
+                    <td>{{ $sku->name }}</td>
+                    <td>{{ $skuOption->name }}</td>
                     <td>
                         <div class="btn-group" role="group">
-                            <form action="{{ route('property-options.destroy', [$property, $propertyOption]) }}" method="POST">
-                                <a class="btn btn-success" type="button" href="{{ route('property-options.show', [$property, $propertyOption]) }}">Открыть</a>
-                                <a class="btn btn-warning" type="button" href="{{ route('property-options.edit', [$property, $propertyOption]) }}">Редактировать</a>
+                            <form action="{{ route('property-options.destroy', [$sku, $skuOption]) }}" method="POST">
+                                <a class="btn btn-success" type="button" href="{{ route('property-options.show', [$sku, $skuOption]) }}">Открыть</a>
+                                <a class="btn btn-warning" type="button" href="{{ route('property-options.edit', [$sku, $skuOption]) }}">Редактировать</a>
                                 @csrf
                                 @method('DELETE')
                                 <input class="btn btn-danger" type="submit" value="Удалить"></form>
@@ -40,8 +40,8 @@
             @endforeach
             </tbody>
         </table>
-        {{ $propertyOptions->links() }}
+        {{ $skuOptions->links() }}
         <a class="btn btn-success" type="button"
-           href="{{ route('property-options.create', $property) }}">Добавить вариант свойства</a>
+           href="{{ route('property-options.create', $sku) }}">Добавить вариант свойства</a>
     </div>
 @endsection

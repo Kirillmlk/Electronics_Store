@@ -31,13 +31,13 @@ class PropertyController extends Controller
     public function store(PropertyRequest $request)
     {
         Property::create($request->all());
-        return redirect()->route('properties.index');
+        return redirect()->route('skus.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Property $property)
+    public function show(Property $sku)
     {
         return view('auth.properties.show', compact('property'));
     }
@@ -45,7 +45,7 @@ class PropertyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Property $property)
+    public function edit(Property $sku)
     {
         return view('auth.properties.form', compact('property'));
     }
@@ -53,18 +53,18 @@ class PropertyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PropertyRequest $request, Property $property)
+    public function update(PropertyRequest $request, Property $sku)
     {
-        $property->update($request->all());
-        return redirect()->route('properties.index');
+        $sku->update($request->all());
+        return redirect()->route('skus.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Property $property)
+    public function destroy(Property $sku)
     {
-        $property->delete();
-        return redirect()->route('properties.index');
+        $sku->delete();
+        return redirect()->route('skus.index');
     }
 }
