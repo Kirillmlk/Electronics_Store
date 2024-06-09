@@ -40,5 +40,5 @@
             @include('card', compact('product'))
         @endforeach
     </div>
-    {{ $products->links() }}
+    {{ $products->links('pagination::bootstrap-4') }}
 @endsection
