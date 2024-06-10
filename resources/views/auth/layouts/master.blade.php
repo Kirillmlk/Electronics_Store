@@ -31,8 +31,9 @@
                 <ul class="nav navbar-nav">
                     @admin
                     <li><a href="{{ route('categories.index') }}">Категории</a></li>
-                    <li><a href="{{ route('products.index') }}">Товары</a></li>
-                    <li><a href="{{ route('properties.index') }}">Свойства</a></li>
+                    <li><a href="{{ route('products.index') }}">Товары</a>
+                    <li><a href="{{ route('properties.index') }}">Свойства</a>
+                    </li>
                     <li><a href="{{ route('home') }}">Заказы</a></li>
                     @endadmin
                 </ul>
@@ -54,7 +55,8 @@
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false" v-pre>
-                                Администратор
+                                @admin Администратор @else {{ Auth::user()->name }} @endadmin
+
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -86,4 +88,3 @@
 </div>
 </body>
 </html>
-

@@ -1,33 +1,33 @@
 @extends('auth.layouts.master')
 
-@isset($skuOption)
-    @section('title', 'Редактировать вариант свойства ' . $skuOption->name)
+@isset($propertyOption)
+    @section('title', 'Редактировать вариант свойства ' . $propertyOption->name)
 @else
     @section('title', 'Создать вариант свойства')
 @endisset
 
 @section('content')
     <div class="col-md-12">
-        @isset($skuOption)
-            <h1>Редактировать вариант свойства <b>{{ $skuOption->name }}</b></h1>
+        @isset($propertyOption)
+            <h1>Редактировать вариант свойства <b>{{ $propertyOption->name }}</b></h1>
         @else
             <h1>Добавить вариант свойства</h1>
         @endisset
 
         <form method="POST" enctype="multipart/form-data"
-              @isset($skuOption)
-                  action="{{ route('property-options.update', [$sku, $skuOption]) }}"
+              @isset($propertyOption)
+                  action="{{ route('property-options.update', [$property, $propertyOption]) }}"
               @else
-                  action="{{ route('property-options.store', $sku) }}"
+                  action="{{ route('property-options.store', $property) }}"
             @endisset
         >
             <div>
-                @isset($skuOption)
+                @isset($propertyOption)
                     @method('PUT')
                 @endisset
                 @csrf
                 <div>
-                    <h2>Свойство {{ $sku->name }}</h2>
+                    <h2>Свойство {{ $property->name }}</h2>
                 </div>
                 <div class="input-group row">
                     <label for="name" class="col-sm-2 col-form-label">Название: </label>
@@ -36,7 +36,7 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                         <input type="text" class="form-control" name="name" id="name"
-                               value="@isset($skuOption){{ $skuOption->name }}@endisset">
+                               value="@isset($propertyOption){{ $propertyOption->name }}@endisset">
                     </div>
                 </div>
 
@@ -48,7 +48,7 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                         <input type="text" class="form-control" name="name_en" id="name_en"
-                               value="@isset($skuOption){{ $skuOption->name_en }}@endisset">
+                               value="@isset($propertyOption){{ $propertyOption->name_en }}@endisset">
                     </div>
                 </div>
 

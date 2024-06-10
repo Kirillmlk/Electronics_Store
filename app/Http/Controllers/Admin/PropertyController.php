@@ -37,7 +37,7 @@ class PropertyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Property $sku)
+    public function show(Property $property)
     {
         return view('auth.properties.show', compact('property'));
     }
@@ -45,7 +45,7 @@ class PropertyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Property $sku)
+    public function edit(Property $property)
     {
         return view('auth.properties.form', compact('property'));
     }
