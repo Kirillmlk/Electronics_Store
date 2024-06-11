@@ -31,7 +31,7 @@ class PropertyController extends Controller
     public function store(PropertyRequest $request)
     {
         Property::create($request->all());
-        return redirect()->route('skus.index');
+        return redirect()->route('properties.index');
     }
 
     /**
@@ -53,18 +53,17 @@ class PropertyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PropertyRequest $request, Property $sku)
+    public function update(PropertyRequest $request, Property $property)
     {
-        $sku->update($request->all());
-        return redirect()->route('skus.index');
+        $property->update($request->all());
+        return redirect()->route('properties.index');
     }
-
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Property $sku)
+    public function destroy(Property $property)
     {
-        $sku->delete();
-        return redirect()->route('skus.index');
+        $property->delete();
+        return redirect()->route('properties.index');
     }
 }
