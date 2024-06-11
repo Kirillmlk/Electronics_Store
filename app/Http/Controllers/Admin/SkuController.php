@@ -34,36 +34,36 @@ class SkuController extends Controller
     {
         $params = $request->all();
         $params['product_id'] = $request->product->id;
-        $sku = Sku::create($params);
-        $sku->propertyOptions()->sync($request->property_id);
+        $skus = Sku::create($params);
+        $skus->propertyOptions()->sync($request->property_id);
         return redirect()->route('skus.index', $product);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product, Sku $sku)
+    public function show(Product $product, Sku $skus)
     {
-        return view('auth.skus.show', compact('product', 'sku'));
+        return view('auth.skus.show', compact('product', 'skus'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product, Sku $sku)
+    public function edit(Product $product, Sku $skus)
     {
-        return view('auth.skus.form', compact('product', 'sku'));
+        return view('auth.skus.form', compact('product', 'skus'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product, Sku $sku)
+    public function update(Request $request, Product $product, Sku $skus)
     {
         $params = $request->all();
         $params['product_id'] = $request->product->id;
-        $sku->update($params);
-        $sku->propertyOptions()->sync($request->property_id);
+        $skus->update($params);
+        $skus->propertyOptions()->sync($request->property_id);
         return redirect()->route('skus.index', $product);
     }
 

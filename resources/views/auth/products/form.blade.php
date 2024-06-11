@@ -75,9 +75,7 @@
                     <div class="col-sm-6">
                         @include('auth.layouts.error', ['fieldName' => 'description'])
                         <textarea name="description" id="description" cols="72"
-                                  rows="7">@isset($product)
-                                {{ $product->description }}
-                            @endisset</textarea>
+                                  rows="7">@isset($product){{ $product->description }}@endisset</textarea>
                     </div>
                 </div>
                 <br>
@@ -86,9 +84,7 @@
                     <div class="col-sm-6">
                         @include('auth.layouts.error', ['fieldName' => 'description_en'])
                         <textarea name="description_en" id="description_en" cols="72"
-                                  rows="7">@isset($product)
-                                {{ $product->description_en }}
-                            @endisset</textarea>
+                                  rows="7">@isset($product){{ $product->description_en }}@endisset</textarea>
                     </div>
                 </div>
                 <br>
@@ -103,24 +99,24 @@
                 <br>
 
                 <div class="input-group row">
-                    <label for="category_id" class="col-sm-2 col-form-label">Свойства товаров: </label>
+                    <label for="category_id" class="col-sm-2 col-form-label">Свойства товара: </label>
                     <div class="col-sm-6">
                         @include('auth.layouts.error', ['fieldName' => 'property_id[]'])
-                        <select name="property_id[]"  multiple>
-                            @foreach($properties as $sku)
-                                <option value="{{ $sku->id }}"
+                        <select name="property_id[]" multiple>
+                            @foreach($properties as $property)
+                                <option value="{{ $property->id }}"
                                         @isset($product)
-                                            @if($product->properties->contains($sku->id))
+                                            @if($product->properties->contains($property->id))
                                                 selected
                                     @endif
                                     @endisset
-                                >{{ $sku->name }}</option>
+                                >{{ $property->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-
                 <br>
+
                 @foreach ([
                 'hit' => 'Хит',
                 'new' => 'Новинка',
