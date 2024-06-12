@@ -78,7 +78,7 @@ Route::middleware(['set_locale'])->group(function () {
 
     // Маршруты для категорий и продуктов
     Route::get('/{category}', [MainController::class, 'category'])->name('category');
-    Route::get('/{category}/{product}', [MainController::class, 'product'])->name('product');
+    Route::get('/{category}/{product}/{skus}', [MainController::class, 'sku'])->name('sku');
 });
 
 
