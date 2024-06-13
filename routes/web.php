@@ -63,7 +63,7 @@ Route::middleware(['set_locale'])->group(function () {
     // Основные маршруты
     Route::get('/', [MainController::class, 'index'])->name('index');
     Route::get('/categories', [MainController::class, 'categories'])->name('categories');
-    Route::post('/subscription/{product}', [MainController::class, 'subscribe'])->name('subscription');
+    Route::post('/subscription/{skus}', [MainController::class, 'subscribe'])->name('subscription');
 
     // Группа маршрутов для корзины
     Route::prefix('basket')->group(function () {

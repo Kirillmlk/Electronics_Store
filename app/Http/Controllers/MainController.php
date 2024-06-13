@@ -66,11 +66,11 @@ class MainController extends Controller
         return view('product', compact('skus'));
     }
 
-    public function subscribe(SubscriptionRequest $request, Product $product)
+    public function subscribe(SubscriptionRequest $request, Sku $skus)
     {
         Subscription::create([
             'email' => $request->email,
-            'product_id' => $product->id,
+            'sku_id' => $skus->id,
        ]);
         return redirect()->back()->with('success', __('product.we_will_update'));
     }
