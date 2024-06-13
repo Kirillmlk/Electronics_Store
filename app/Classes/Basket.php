@@ -5,6 +5,7 @@ namespace App\Classes;
 use App\Mail\OrderCreated;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Sku;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -109,23 +110,21 @@ class Basket
         Order::changeFullSum(-$product->price);
     }
 
-    public function addProduct(Product $product)
+    public function addSku(Sku $skus)
     {
-        if ($this->order->products->contains($product->id)) {
-            $pivotRow = $this->getPivotRow($product);
-            $pivotRow->count++;
-            if ($pivotRow->count > $product->count) {
+        if ($this->order->skus->contains($skus)) {
+            $pivotRow = $this->order->skus->where('id', $skus->id)->first();
+            if ($pivotRow->countInOrder >= $skus->count) {
                 return false;
             }
-            $pivotRow->update();
+            $pivotRow->countInOrder++;
         } else {
-            if ($product->count == 0) {
+            if ($skus->count == 0) {
                 return false;
             }
-            $this->order->products()->attach($product->id);
+            $skus->countInOrder = 1;
+            $this->order->skus->push($skus);
         }
-
-        Order::changeFullSum($product->price);
 
         return true;
     }

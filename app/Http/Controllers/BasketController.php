@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Classes\Basket;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Sku;
 use DemeterChain\B;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,14 +44,14 @@ class BasketController extends Controller
         return view('order', compact('order'));
     }
 
-    public function basketAdd(Product $product)
+    public function basketAdd(Sku $skus)
     {
-        $result = (new Basket(true))->addProduct($product);
+        $result = (new Basket(true))->addSku($skus);
 
         if ($result) {
-            session()->flash('success', __('basket.added').$product->name);
+            session()->flash('success', __('basket.added').$skus->product->__('name'));
         } else {
-            session()->flash('warning', $product->name . __('basket.not_available_more'));
+            session()->flash('warning', $skus->product->__('name') . __('basket.not_available_more'));
         }
 
         return redirect()->route('basket');

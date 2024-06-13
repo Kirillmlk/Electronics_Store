@@ -14,16 +14,15 @@ class BasketIsNotEmpty
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle($request, Closure $next)
     {
-//        session()->flush();
-//        die();
-        $orderId = session('orderId');
+        $order = session('order');
 
-        if (!is_null($orderId) && Order::getFullSum() > 0) {
-                return $next($request);
+        if (!is_null($order) && $order->getFullSum() > 0) {
+            return $next($request);
         }
 
+        session()->forget('order');
         session()->flash('warning', __('basket.cart_is_empty'));
         return redirect()->route('index');
     }

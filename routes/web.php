@@ -67,11 +67,11 @@ Route::middleware(['set_locale'])->group(function () {
 
     // Группа маршрутов для корзины
     Route::prefix('basket')->group(function () {
-        Route::post('/add/{product}', [BasketController::class, 'basketAdd'])->name('basket-add');
+        Route::post('/add/{skus}', [BasketController::class, 'basketAdd'])->name('basket-add');
         Route::middleware(['basket_not_empty'])->group(function () {
             Route::get('/', [BasketController::class, 'basket'])->name('basket');
             Route::get('/place', [BasketController::class, 'basketPlace'])->name('basket-place');
-            Route::post('/remove/{product}', [BasketController::class, 'basketRemove'])->name('basket-remove');
+            Route::post('/remove/{skus}', [BasketController::class, 'basketRemove'])->name('basket-remove');
             Route::post('/place', [BasketController::class, 'basketConfirm'])->name('basket-confirm');
         });
     });
