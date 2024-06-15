@@ -44,25 +44,31 @@ class BasketController extends Controller
         return view('order', compact('order'));
     }
 
-    public function basketAdd(Sku $skus)
+    public function add(Request $request, $skuId)
     {
-        $result = (new Basket(true))->addSku($skus);
-
-        if ($result) {
-            session()->flash('success', __('basket.added').$skus->product->__('name'));
-        } else {
-            session()->flash('warning', $skus->product->__('name') . __('basket.not_available_more'));
+        try {
+            $sku = Sku::findOrFail($skuId);
+            $basket = new Basket();
+            if ($basket->addSku($sku)) {
+                return redirect()->route('basket')->with('success', 'Product added to basket!');
+            } else {
+                return redirect()->route('basket')->with('error', 'Product is not available!');
+            }
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('basket')->with('error', 'SKU not found');
         }
-
-        return redirect()->route('basket');
     }
 
-    public function basketRemove(Product $product)
+    public function remove(Request $request, $skuId)
     {
-        (new Basket())->removeProduct($product);
-
-        session()->flash('warning', __('basket.removed').$product->name);
-
-        return redirect()->route('basket');
+        try {
+            $sku = Sku::findOrFail($skuId);
+            $basket = new Basket();
+            $basket->removeProduct($sku->product);
+            return redirect()->route('basket')->with('success', 'Product removed from basket!');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('basket')->with('error', 'SKU not found');
+        }
     }
+
 }
